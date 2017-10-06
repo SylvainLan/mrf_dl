@@ -6,7 +6,7 @@ import torch.utils.data as data
 import torch
 import codecs
 
-class DUMMY(data.Dataset):
+class mag_load(data.Dataset):
 	raw_folder = 'raw'
 	r_training_file = 'training.mat'
 	r_test_file = 'test.mat'
