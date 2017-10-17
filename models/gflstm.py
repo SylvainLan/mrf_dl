@@ -62,11 +62,12 @@ class GFLSTM(nn.Module):
         for l in range(self.steps):
             f = func.sigmoid(self.i2h_f[l](input) + self.h2h_f[l](hidden[l]))
             i = func.sigmoid(self.i2h_i[l](input) + self.h2h_i[l](hidden[l]))
-            g = func.sigmoid(self.i2h_g[l](input) + self.h2h_g[l](torch.cat(hidden, 2)))
-            aux = self.h2h_c[l](torch.cat(hidden, 2))
-            aux = aux.view(self.steps, self.hidden_dim)
-            aux = aux * g.view(self.steps, -1)
-            aux = aux.sum(0).view(1, -1)
+            g = func.sigmoid(self.i2h_g[l](input) + self.h2h_g[l](torch.cat(hidden, 1)))
+            aux = self.h2h_c[l](torch.cat(hidden, 1))
+            aux = aux.view(-1, self.steps, self.hidden_dim)
+            g = g.view(-1, self.steps, 1)
+            aux = aux * g
+            aux = aux.sum(1).view(-1, self.hidden_dim)
 
             c_t = func.tanh(self.i2h_c[l](input) + aux)
             c = f * current[l] + i * c_t
