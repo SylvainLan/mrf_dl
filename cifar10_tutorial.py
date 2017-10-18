@@ -137,6 +137,7 @@ class Net(nn.Module):
 
 
 net = Net()
+net.cuda()
 
 ########################################################################
 # 3. Define a Loss function and optimizer
@@ -164,7 +165,7 @@ for epoch in range(2):  # loop over the dataset multiple times
         inputs, labels = data
 
         # wrap them in Variable
-        inputs, labels = Variable(inputs), Variable(labels)
+        inputs, labels = Variable(inputs.cuda()), Variable(labels.cuda())
 
         # zero the parameter gradients
         optimizer.zero_grad()
@@ -275,7 +276,7 @@ for i in range(10):
 #
 # .. code:: python
 
-    net.cuda()
+ #   net.cuda()
 
 
 # Remember that you will have to send the inputs and targets at every step
