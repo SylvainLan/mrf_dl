@@ -274,10 +274,10 @@ for i in range(10):
 # buffers to CUDA tensors:
 #
 # .. code:: python
-#
-#     net.cuda()
-#
-#
+
+    net.cuda()
+
+
 # Remember that you will have to send the inputs and targets at every step
 # to the GPU too:
 #
