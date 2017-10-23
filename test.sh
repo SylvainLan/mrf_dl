@@ -11,4 +11,4 @@
 module purge
 module load pytorch/python3.5/0.2.0_3
 
-python3 test_cuda.py
+python3 train_lstm.py
