@@ -31,7 +31,8 @@ for epoch in range(1):
         for t in range(11):
             h_next, c = gf(sig, h[t], c)
             h.append(h_next)
-        out = F.sigmoid(lastL(torch.cat([h[l + 1][-1] for l in range(10)], 1)).cuda())
+        last_out = torch.cat([h[l + 1][-1] for l in range(10)], 1)
+        out = F.sigmoid(lastL(last_out))
         # loss = criterion(out, T)
         # loss.backward()
         # optimizer.step()
