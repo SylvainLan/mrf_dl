@@ -12,4 +12,4 @@ module purge
 module load pytorch/python3.5/0.2.0_3
 module load torchvision/python3.5/0.1.9
 
-python3 cifar10_tutorial.py
+python3 train_lstm.py
