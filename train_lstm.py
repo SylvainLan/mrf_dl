@@ -20,3 +20,18 @@ lastL = nn.Linear(1000, 44)
 criterion = nn.MSELoss()
 optimizer = optim.SGD(gf.parameters(), lr=0.01, momentum=0.9)
 gf.cuda()
+
+for epoch in range(1):
+    for i, data in enumerate(trainloader):
+        sig, T = data
+        sig, T = Variable(sig.cuda()), Variable(T.cuda())
+        optimizer.zero_grad()
+        h = [[Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]]
+        c = [Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]
+        for t in range(11):
+            h_next, c = gf(sig, h[t], c)
+            h.append(h_next)
+        out = F.sigmoid(lastL(torch.cat([h[l + 1][-1] for l in range(10)], 1)))
+        loss = criterion(out, T)
+        loss.backward()
+        optimizer.step()
