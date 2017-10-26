@@ -20,7 +20,7 @@ criterion = nn.MSELoss()
 optimizer = optim.SGD(net.parameters(), lr=0.01, momentum=0.9)
 
 for epoch in range(100):
-    running_loss = 0.0;
+    running_loss = 0.0
 
     for i, data in enumerate(trainloader, 0):
         sig, T = data
