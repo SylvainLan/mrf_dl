@@ -22,7 +22,7 @@ criterion = nn.MSELoss()
 optimizer = optim.SGD(gf.parameters(), lr=0.01, momentum=0.9)
 gf.cuda()
 
-for epoch in range(100):
+for epoch in range(20):
     running_loss = 0.0
     for i, data in enumerate(trainloader):
         sig, T = data
@@ -41,6 +41,8 @@ for epoch in range(100):
         optimizer.step()
     print(running_loss) 
 
+
+torch.save(gf, "gflstm_trained.pt")
 # test_iter = iter(testloader)
 # sig_t, T_t = test_iter.next()
 # sig_t, T_t = Variable(sig_t), Variable(T_t)
