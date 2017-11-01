@@ -22,6 +22,25 @@ criterion = nn.MSELoss()
 optimizer = optim.SGD(gf.parameters(), lr=0.01, momentum=0.9)
 gf.cuda()
 
+# for epoch in range(1):
+#     running_loss = 0.0
+#     for i, data in enumerate(trainloader):
+#         sig, T = data
+#         sig, T = Variable(sig.cuda()), Variable(T.cuda())
+#         optimizer.zero_grad()
+#         h = [[Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]]
+#         c = [Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]
+#         for t in range(11):
+#             h_next, c = gf(sig, h[t], c)
+#             h.append(h_next)
+#         last_out = torch.cat([h[l + 1][-1] for l in range(10)], 1)
+#         out = F.sigmoid(lastL(last_out))
+#         loss = criterion(out, T)
+#         running_loss += loss
+#         loss.backward()
+#         optimizer.step()
+#     print(running_loss)
+
 for epoch in range(1):
     running_loss = 0.0
     for i, data in enumerate(trainloader):
@@ -30,16 +49,13 @@ for epoch in range(1):
         optimizer.zero_grad()
         h = [[Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]]
         c = [Variable(torch.zeros(b_size,100).cuda()), Variable(torch.zeros(b_size,100).cuda())]
-        for t in range(11):
-            h_next, c = gf(sig, h[t], c)
-            h.append(h_next)
-        last_out = torch.cat([h[l + 1][-1] for l in range(10)], 1)
-        out = F.sigmoid(lastL(last_out))
+        out = gf(sig, h, c)
         loss = criterion(out, T)
         running_loss += loss
         loss.backward()
         optimizer.step()
-    print(running_loss) 
+    print(running_loss)
+
 
 
 torch.save(gf, "gflstm_trained.pt")
