@@ -10,19 +10,19 @@ from data.mag_data_load import mag_load
 
 b_size = 4
 
-trainset = mag_load('./data/T1_class', train=True, download=True)
+trainset = mag_load('./data/T1_class_c', train=True, download=True)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=b_size, shuffle=True)
-testset = mag_load('./data/T1_class', train=False, download=True)
+testset = mag_load('./data/T1_class_c', train=False, download=True)
 testloader = torch.utils.data.DataLoader(testset, batch_size=1, shuffle=False)
 
-gf = GFLSTM(850, 100, 2)
+gf = GFLSTM(10, 100, 2)
 lastL = nn.Linear(1000, 44)
 lastL.cuda()
 criterion = nn.MSELoss()
 optimizer = optim.SGD(gf.parameters(), lr=0.01, momentum=0.9)
 gf.cuda()
 
-for epoch in range(20):
+for epoch in range(1):
     running_loss = 0.0
     for i, data in enumerate(trainloader):
         sig, T = data
@@ -43,6 +43,7 @@ for epoch in range(20):
 
 
 torch.save(gf, "gflstm_trained.pt")
+torch.save(lastL, "lastL_trained.pt")
 # test_iter = iter(testloader)
 # sig_t, T_t = test_iter.next()
 # sig_t, T_t = Variable(sig_t), Variable(T_t)
